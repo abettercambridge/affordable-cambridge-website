@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Affordable Cambridge//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:council-vote-2026-09-28@affordablecambridge
+DTSTAMP:20260927T120000Z
+DTSTART:20260928T213000Z
+DTEND:20260928T233000Z
+SUMMARY:Cambridge City Council vote on housing amendments
+LOCATION:Sullivan Chamber\, Cambridge City Hall\, 795 Massachusetts Ave\, Cambridge MA
+DESCRIPTION:Sign up for public comment before the meeting starts.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Council vote on housing amendments
+TRIGGER:-PT1H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

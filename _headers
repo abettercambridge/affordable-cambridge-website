@@ -1,0 +1,13 @@
+# Assets cache for a week; HTML re-checks every time so edits show up right away.
+/*.png
+  Cache-Control: public, max-age=604800
+/*.svg
+  Cache-Control: public, max-age=604800
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+# Serve the calendar file as a calendar (not a download) so iPhone shows "Add to Calendar"
+/*.ics
+  Content-Type: text/calendar; charset=utf-8
+  Content-Disposition: inline; filename="council-vote.ics"
