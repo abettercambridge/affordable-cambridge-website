@@ -1,43 +1,46 @@
 # Affordable Cambridge
 
-Static site, same setup as the Miller site: one self-contained HTML file per page, shared header and footer copied into each, Netlify form, `_headers` for caching.
+Static site for [affordablecambridge.org](https://affordablecambridge.org/), asking Cambridge residents to help stop the rollback of the Multifamily Housing Ordinance. A website by [A Better Cambridge](https://www.abettercambridge.org/).
 
-index.html        The story, V3: hook, the past, the win, now, never built, we all pay, the ask
-numbers.html      Sources and method for every figure
-stories.html      Build your card: photo upload with drag and zoom, 7 designs, live preview (Netlify Forms; sends layout, photo_x, photo_y, photo_zoom)
-storycards.js     The 7 story card layouts, shared by index.html and stories.html
-act.html          Email the Council (editable letter), Pledge to be there (Netlify form), what happens next
-thanks.html       Where the story form lands after submit
-pledged.html      Where the pledge form lands after submit; shows Add to calendar for each event
-events.js         Upcoming events list, shared by index.html, act.html and pledged.html
-privacy.html      Short privacy note for the form
-images/           Portrait photos go here
+Plain static HTML, CSS and JavaScript. There's no build step.
 
-## Design
-Visual system follows DESIGN.md (Porch Teal): Anton for headlines, DM Serif Display italic for residents' words, DM Sans for everything else. Tokens live in :root and the "Porch Teal design system" block at the end of each page's <style>. The alert band style is still in the CSS for hearing weeks; the band itself is removed until a hearing date is set.
+## Run locally
 
-## How the animations work
-Nothing pins or holds the page. The "We want to live here" row drifts sideways on its own and freezes while hovered, focused or touched. Each other piece plays once when it scrolls into view: resident cards fade up, the porch lights come on with the 147 counter, numbered pins drop onto the zoning map (hovering a street photo lights its pin), the population-loss bars grow year by year and wipe out the neighbors they reach, and the cost chart draws. Visitors with reduced motion turned on see the finished state.
+```bash
+python3 -m http.server 8000
+```
+
+Then open http://localhost:8000. The two forms only work on Netlify.
 
 ## Deploy
-Drag the folder onto app.netlify.com/drop, or push to a repo linked to Netlify.
-After the first deploy, turn on form detection: Site settings > Forms.
 
-## Editing numbers
-All homepage numbers live in one block at the top of the last <script> in index.html (`var DATA = {...}`): affordable (porch lights and the win counter), atRisk (the Now and Never built counters), resident photos in the porch grid, and the illustrative rent/price series.
+The site is hosted on Netlify. Push to the linked repo, or drag the folder onto app.netlify.com/drop. After the first deploy, turn on form detection under Site settings > Forms. `_headers` sets caching: HTML is re-checked on every visit, and images are cached.
 
-## Before launch
-Search every file for TODO and [square brackets]. Main ones:
-- Confirm 147 affordable homes proposed, with earlier years for comparison (David)
-- Confirm the 147 at-risk figure and the method behind it (numbers.html)
-- The past map: "Where apartments were banned" is built from official City of Cambridge GIS zoning polygons (March 2024, pre-ordinance). The "Diversity" tab redraws CDD p. 16 values on official neighborhood boundaries (original in images/cdd-diversity-map.jpg). The "New homes" tab redraws David's draft net-units map (images/units-permitted-since-envision-draft.jpg); confirm its time frame and credit line
-- Cite the inclusionary threshold behind the 12-to-9 building example
-- Rent and home price series for We all pay (chart is illustrative)
-- Pushed out chart: DATA.migration is illustrative; replace with Boston Indicators' yearly net loss of 25 to 44-year-olds (2006 to 2022) and fill in [N] residents per figure
-- Illegal to build cards: photos in images/garden-st.jpg etc. are low-res crops; swap in originals, confirm each building is nonconforming, and move the map pins to exact addresses
-- Nine new neighbor photos (images/neighbor-1.jpg to neighbor-9.jpg) need names, neighborhoods, quotes and written consent; they also fill the faces in the Pushed out chart
-- Resident stories and photos: hook cards, Never built story card, porch grid photos, stories.html
-- Background video images/cambridge-aerial.mp4 is YouTube drone footage; confirm rights
-- Contact email and paid-for line (footer on every page)
-- og:image and og:url once the Netlify URL exists
-- Update the timeline (index.html section 7 and act.html) as the city sets dates
+## Pages
+
+| File | What it is |
+|---|---|
+| `index.html` | Homepage: the story from 1930s zoning to the 2025 ordinance and the proposed rollback, then the ask |
+| `act.html` | Email the Council (an editable letter), pledge to attend (the `pledge` form), and the timeline |
+| `stories.html` | Share your story: build a story card with a photo (the `story` form) |
+| `numbers.html` | Every figure and its source, plus the zoning, diversity and new homes maps |
+| `thanks.html`, `pledged.html` | Where the story and pledge forms land after submitting (not indexed by search engines) |
+| `privacy.html` | How form information is used |
+| `events.js` | Upcoming events, shared by `index.html`, `act.html` and `pledged.html` |
+| `storycards.js` | Story card layouts, shared by `index.html` and `stories.html` |
+| `share.png` | Link preview image (1200×630) |
+
+## Updating numbers
+
+Homepage figures live in `var DATA = {...}` at the top of the last `<script>` in `index.html`. Each figure also has a row on `numbers.html`, so change both together.
+
+Three figures come from [this notebook](https://github.com/abettercambridge/public-posts/blob/main/cambridge-housing-affordability/notebooks/affordable_cambridge_website_citations.ipynb) in `public-posts`: net homes by neighborhood, the West Cambridge −46, and the home value series. Re-run it when the permit or Zillow data is refreshed.
+
+## TODO before launch
+
+- **Resident stories:** `DATA.stories` holds placeholders only, and the homepage carousel is off (there's no `#loop` element). Collect real stories with written consent, then turn the carousel back on.
+- **Drone video:** `images/cambridge-aerial.mp4` is YouTube drone footage. Confirm we have the rights to use it.
+- **Building photos:** `images/garden-st.jpg`, `harvard-st.jpg`, `linnaean-st.jpg` and `oxford-st.jpg` are low-res (504 px wide). Swap in originals, confirm each building is nonconforming, and move the map pins to the exact addresses.
+- **Rindge Ave before/after:** the "one lot" section on the homepage (`#win`) uses drawings for Before 2025 and After. Consider real photos of 121 Rindge Ave instead (for example `images/rindge-before.jpg` and an after shot). The section would need a small code change to show them.
+- **Timeline:** update `index.html` (the ask), `act.html` and `events.js` when the city sets hearing and vote dates.
+- **Link previews:** once the domain points at Netlify, check `share.png` and `og:url` with a preview checker such as opengraph.xyz.

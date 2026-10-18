@@ -6,13 +6,12 @@
    ============================================================ */
 window.AC_EVENTS = [
   {
-    // TODO: set the date once the Council posts the agenda
     title: "City staff present rollback options to the Council",
     when: "Mid-November",
     start: null,
     end: null,
     location: "Sullivan Chamber, Cambridge City Hall, 795 Massachusetts Ave, Cambridge",
-    details: "The next step toward a rollback. Come fill the room, or send an email before the meeting.",
+    details: "",
     link: ""
   }
 ];
