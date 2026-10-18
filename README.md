@@ -41,6 +41,6 @@ Three figures come from [this notebook](https://github.com/abettercambridge/publ
 - **Resident stories:** `DATA.stories` holds placeholders only, and the homepage carousel is off (there's no `#loop` element). Collect real stories with written consent, then turn the carousel back on.
 - **Drone video:** `images/cambridge-aerial.mp4` is YouTube drone footage. Confirm we have the rights to use it.
 - **Building photos:** `images/garden-st.jpg`, `harvard-st.jpg`, `linnaean-st.jpg` and `oxford-st.jpg` are low-res (504 px wide). Swap in originals, confirm each building is nonconforming, and move the map pins to the exact addresses.
-- **Rindge Ave before/after:** the "one lot" section on the homepage (`#win`) uses drawings for Before 2025 and After. Consider real photos of 121 Rindge Ave instead (for example `images/rindge-before.jpg` and an after shot). The section would need a small code change to show them.
+- **Rindge Ave before/after:** the "one lot" section (`#win`) uses drawings. Two sample sketches inspired by real life are in `images/`: `modern-gable.svg` (single-family modernist mansion) and `nine-unit.svg` (nine-home building).
 - **Timeline:** update `index.html` (the ask), `act.html` and `events.js` when the city sets hearing and vote dates.
 - **Link previews:** once the domain points at Netlify, check `share.png` and `og:url` with a preview checker such as opengraph.xyz.

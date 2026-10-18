@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 170" role="img" aria-label="Drawing of one four-story building with nine homes">
+  <rect width="200" height="170" fill="#C9D3D1"/>
+  <rect y="138" width="200" height="32" fill="#9FB1AD"/>
+  <!-- roof bulkhead -->
+  <rect x="50" y="36" width="16" height="10" fill="#2B3534"/>
+  <!-- long side: three floors of homes over a ground floor -->
+  <rect x="14" y="44" width="104" height="96" fill="#3B4746"/>
+  <path d="M14 70H118M14 94H118M14 118H118" stroke="#2B3534" stroke-width="1"/>
+  <g fill="#F2C356">
+    <!-- floor 4 -->
+    <rect x="20" y="50" width="8" height="15" opacity=".75"/><rect x="32" y="50" width="10" height="17" opacity=".9"/><rect x="46" y="50" width="8" height="15" opacity=".6"/>
+    <rect x="60" y="50" width="8" height="15" opacity=".8"/><rect x="72" y="50" width="8" height="15" opacity=".55"/><rect x="84" y="50" width="8" height="15" opacity=".7"/>
+    <!-- floor 3 -->
+    <rect x="20" y="74" width="8" height="15" opacity=".6"/><rect x="32" y="74" width="10" height="17" opacity=".8"/><rect x="46" y="74" width="8" height="15" opacity=".85"/>
+    <rect x="60" y="74" width="8" height="15" opacity=".5"/><rect x="72" y="74" width="8" height="15" opacity=".75"/><rect x="84" y="74" width="8" height="15" opacity=".65"/>
+    <!-- floor 2 -->
+    <rect x="20" y="98" width="8" height="15" opacity=".85"/><rect x="32" y="98" width="10" height="17" opacity=".7"/><rect x="46" y="98" width="8" height="15" opacity=".55"/>
+    <rect x="60" y="98" width="8" height="15" opacity=".7"/><rect x="72" y="98" width="8" height="15" opacity=".9"/><rect x="84" y="98" width="8" height="15" opacity=".6"/>
+    <!-- ground floor -->
+    <rect x="20" y="122" width="8" height="13" opacity=".5"/><rect x="46" y="122" width="8" height="13" opacity=".45"/><rect x="72" y="122" width="8" height="13" opacity=".5"/>
+  </g>
+  <!-- balcony railings on the French doors -->
+  <path d="M30 64H44M30 88H44M30 112H44" stroke="#E4EBE9" stroke-width="2"/>
+  <!-- stair and elevator tower with entry canopy -->
+  <rect x="96" y="40" width="16" height="100" fill="#4F5F5C"/>
+  <rect x="98" y="124" width="12" height="16" fill="#F2C356" opacity=".85"/>
+  <path d="M90 122H112" stroke="#E4EBE9" stroke-width="3"/>
+  <!-- street end: homes over open parking -->
+  <rect x="118" y="44" width="52" height="74" fill="#2B3534"/>
+  <rect x="118" y="118" width="52" height="22" fill="#1F2928"/>
+  <path d="M121 118V140M167 118V140" stroke="#E4EBE9" stroke-width="2.5"/>
+  <g fill="#F2C356">
+    <rect x="128" y="50" width="9" height="15" opacity=".7"/><rect x="151" y="50" width="9" height="15" opacity=".85"/>
+    <rect x="128" y="74" width="9" height="15" opacity=".85"/><rect x="151" y="74" width="9" height="15" opacity=".6"/>
+    <rect x="128" y="98" width="9" height="15" opacity=".6"/><rect x="151" y="98" width="9" height="15" opacity=".8"/>
+  </g>
+  <!-- parapet trim -->
+  <path d="M12 44H172" stroke="#E4EBE9" stroke-width="4"/>
+  <path d="M118 44V118" stroke="#E4EBE9" stroke-width="2"/>
+  <!-- walk -->
+  <rect x="86" y="138" width="30" height="4" fill="#7E918D"/>
+</svg>
