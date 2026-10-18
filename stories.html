@@ -7,8 +7,12 @@
 <meta name="description" content="Why do you want to live in Cambridge? Finish the sentence.">
 <meta property="og:title" content="Share your story | Affordable Cambridge">
 <meta property="og:description" content="Why do you want to live in Cambridge? Finish the sentence.">
-<!-- TODO: add og:image and og:url once the Netlify URL exists -->
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://affordablecambridge.org/stories.html">
+<meta property="og:image" content="https://affordablecambridge.org/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Affordable Cambridge: Wealthy landowners are pushing housing out of reach. Help us fight back.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -123,6 +127,9 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:spac
 footer.site a{color:inherit}
 footer.site strong{color:var(--ink)}
 .foot-brand{display:flex;align-items:center;gap:14px}
+.foot-brand{flex-wrap:wrap;row-gap:18px}
+.foot-partner{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--muted);white-space:nowrap}
+.foot-partner img{height:56px;width:auto;display:block}
 .foot-brand .logo{width:84px;height:84px;flex:none}
 .examples{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
 .ex{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:12px}
@@ -319,6 +326,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
       <input type="hidden" name="photo_y" id="fy" value="25">
       <input type="hidden" name="photo_zoom" id="fz" value="1">
       <input type="hidden" name="card_color" id="fc" value="teal">
+      <input type="hidden" name="layout" id="fl" value="">
       <p class="hp"><label>Leave this empty <input name="company"></label></p>
 
       <fieldset class="step">
@@ -389,12 +397,11 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
       <svg class="logo" viewBox="0 0 1095 1095" aria-hidden="true"><use href="#ac-logo"/></svg>
       <div>
       <strong>Affordable Cambridge</strong><br>
-      <!-- TODO: real contact email -->
-      <a href="mailto:hello@example.org">hello@example.org</a>
+      <a href="mailto:info@abettercambridge.org">info@abettercambridge.org</a>
       </div>
+      <div class="foot-partner">A website by <a href="https://www.abettercambridge.org" target="_blank" rel="noopener"><img src="images/abc-logo.svg" alt="A Better Cambridge" width="124" height="56"></a></div>
     </div>
     <div>
-      <!-- TODO: check with OCPF whether a "Paid for by" line is required before launch -->
       <p><a href="privacy.html">Privacy</a></p>
     </div>
   </div>
@@ -422,7 +429,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
   }
   // picker: one radio per layout, each thumbnail drawn with the person's own card
   looks.innerHTML = StoryCard.LAYOUTS.map(function(l, i){
-    return '<label class="look"><input type="radio" name="layout" value="' + l.slug + '"' + (i ? '' : ' checked') + '><div class="th" data-l="' + l.slug + '"></div><span class="lb">' + l.label + '</span></label>';
+    return '<label class="look"><input type="radio" name="look" value="' + l.slug + '"' + (i ? '' : ' checked') + '><div class="th" data-l="' + l.slug + '"></div><span class="lb">' + l.label + '</span></label>';
   }).join('');
   // color: recolors every card frame; the highlight around designs flips to the paired contrast color
   var sw = $('swatches');
@@ -436,7 +443,8 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
     looks.style.setProperty('--frame', st.color.hex);
     draw(true);
   });
-  looks.addEventListener('change', function(e){ if (e.target.name === 'layout'){ st.layout = e.target.value; draw(true); } });
+  $('fl').value = st.layout || StoryCard.LAYOUTS[0].slug;
+  looks.addEventListener('change', function(e){ if (e.target.name === 'look'){ st.layout = e.target.value; $('fl').value = st.layout; draw(true); } });
 
   var thumbsDue = false;
   function drawThumbs(){

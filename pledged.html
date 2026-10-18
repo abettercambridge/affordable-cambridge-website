@@ -5,10 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>You pledged | Affordable Cambridge</title>
 <meta name="description" content="Thanks for pledging to be there.">
-<meta property="og:title" content="Thank you | Affordable Cambridge">
+<meta property="og:title" content="You pledged | Affordable Cambridge">
 <meta property="og:description" content="Thanks for pledging to be there.">
-<!-- TODO: add og:image and og:url once the Netlify URL exists -->
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://affordablecambridge.org/pledged.html">
+<meta property="og:image" content="https://affordablecambridge.org/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Affordable Cambridge: Wealthy landowners are pushing housing out of reach. Help us fight back.">
+<meta name="robots" content="noindex">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -123,6 +128,9 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:spac
 footer.site a{color:inherit}
 footer.site strong{color:var(--ink)}
 .foot-brand{display:flex;align-items:center;gap:14px}
+.foot-brand{flex-wrap:wrap;row-gap:18px}
+.foot-partner{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--muted);white-space:nowrap}
+.foot-partner img{height:56px;width:auto;display:block}
 .foot-brand .logo{width:84px;height:84px;flex:none}
 
 /* ===== Porch Teal design system (DESIGN.md): headlines shout, people speak ===== */
@@ -234,12 +242,11 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
       <svg class="logo" viewBox="0 0 1095 1095" aria-hidden="true"><use href="#ac-logo"/></svg>
       <div>
       <strong>Affordable Cambridge</strong><br>
-      <!-- TODO: real contact email -->
-      <a href="mailto:hello@example.org">hello@example.org</a>
+      <a href="mailto:info@abettercambridge.org">info@abettercambridge.org</a>
       </div>
+      <div class="foot-partner">A website by <a href="https://www.abettercambridge.org" target="_blank" rel="noopener"><img src="images/abc-logo.svg" alt="A Better Cambridge" width="124" height="56"></a></div>
     </div>
     <div>
-      <!-- TODO: check with OCPF whether a "Paid for by" line is required before launch -->
       <p><a href="privacy.html">Privacy</a></p>
     </div>
   </div>
