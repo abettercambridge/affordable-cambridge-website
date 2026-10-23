@@ -1010,6 +1010,18 @@ footer.site{border-top:6px solid var(--rose)}
   </div>
 </section>
 
+<section class="residents" aria-labelledby="residents-h">
+  <div class="wrap res-head">
+    <p class="intro" id="residents-h">We want to live here.</p>
+    <div class="loop-arrows">
+      <button type="button" class="pg" id="loopPrev" aria-label="Previous neighbor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></button>
+      <button type="button" class="pg" id="loopNext" aria-label="Next neighbor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+  <!-- Cards are built from DATA.stories. Scroll or swipe; it loops forever. New submissions do NOT appear here; add them to DATA.stories by hand. -->
+  <div class="loop" id="loop" tabindex="0" aria-label="Neighbors' stories. Scroll sideways or use the arrows."></div>
+</section>
+
 <!-- 2. THE PAST, ZOOMED IN, AND THE WIN. One stage that plays through on its own once it is on screen: the map runs from 1930 to 2024, zooms into West Cambridge, then flips the city green for 2025. -->
 <section class="story" id="past" aria-labelledby="past-h">
   <div class="st-stage" id="stStage">
@@ -1278,12 +1290,18 @@ var DATA = {
   // A resident photo appears after every N houses.
   photoEvery: 6,
   photos: [],  // resident photos for the porch grid; none yet
-  stories: (function(){
-    // PLACEHOLDERS ONLY. Replace with real residents' stories (with written consent) before turning the carousel on.
-    var P = { photo:'', name:'[Placeholder name]', where:'[Neighborhood]', quote:'[placeholder story text]' };
-    var base = [P, P, P, P, P].map(function(p){ return Object.assign({}, p); });
-    return base;
-  })(),
+  // We want to live here: the carousel. Real neighbors who said yes to sharing their name and photo. Quotes finish "I want to live here because".
+  // Photos in images/stories/. Only edit by hand; new form submissions are not added here.
+  stories: [
+    { photo:'stories/ty',     name:'Ty',         where:'Former resident',   quote:'Cambridge is a great place for young families' },
+    { photo:'stories/hallie', name:'Hallie',     where:'MIT grad student',  quote:'the people here have changed my life' },
+    { photo:'stories/aaron',  name:'Aaron',      where:'Cambridge resident', quote:'of the great public transit, delightful little parks and a strong community' },
+    { photo:'stories/neheet', name:'Neheet',     where:'Cambridge resident', quote:'of the people, the community, the trees, the seasons' },
+    { photo:'stories/andy',   name:'Andy',       where:'Cambridge resident', quote:'of the walkability, bikability and access to transit' }
+  ],
+  // Pushed out graphic: neighbors' selfies fill the faces (images/faces/face-NN.jpg), then story-form photos are added
+  // automatically (netlify/functions/faces.mjs) until all 50 spots are full. Bump faceCount when you add files.
+  faceCount: 19,
   // Pushed out: 10 columns of 5 faces, 2006 to 2022. The 26 faces lost stand for the 129,800 net loss of 25 to 44-year-olds, about 5,000 each.
   // The total is sourced (Boston Indicators); how it splits across the columns is approximate, rising toward 2022.
   migStart: 2006, migEnd: 2022,
@@ -1701,19 +1719,15 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
   // faces: every neighbor's photo, dealt out in a shuffled order so no column repeats the same pattern
   var defs=el('defs',{},svg); el('circle',{r:22},el('clipPath',{id:'migClip'},defs));
   el('feColorMatrix',{type:'saturate',values:'0'},el('filter',{id:'migGray'},defs));
-  var all=DATA.stories.map(function(st){ return st.photo; });
-  var pool=all.filter(function(ph){ return DATA.photos.indexOf(ph) < 0; });
-  if (pool.length < 6) pool=all;   // not enough faces yet to keep the two sections apart
-  var deck=[], seed=7;
+  var seed=7, imgs=[];
   $('migKeyF').src=ANON_URI;
   function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
-  function face(){ if(!deck.length) deck=pool.slice().sort(function(){ return rnd()-.5; }); return deck.pop(); }
   for (var c=0;c<N;c++){
     var cx=c*CW+CW/2, g=el('g',{},svg), people=[];
     for (var r=0;r<ROWS;r++){
       var p=el('g',{'class':'mig-p',transform:'translate('+cx+' '+(TOP+r*RH+RH/2)+')'},g);
       el('circle',{r:23.5,'class':'mig-c'},p);
-      el('image',{href:ANON_URI,x:-22,y:-22,width:44,height:44,'clip-path':'url(#migClip)',preserveAspectRatio:'xMidYMid slice'},p);
+      imgs.push(el('image',{href:ANON_URI,x:-22,y:-22,width:44,height:44,'clip-path':'url(#migClip)',preserveAspectRatio:'xMidYMid slice'},p));
       people.push(p);
     }
     var bar=el('rect',{x:cx-22,y:TOP,width:44,height:0,'class':'mig-bar'},g);
@@ -1733,6 +1747,17 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
         p.classList.toggle('gone', doomed && h > r*RH+RH*0.35);
       });
     });
+  }
+  // faces: the spots go in a fixed shuffled order, faces the bars leave standing first; each new face takes the next spot until none are left
+  var doomed=function(i){ return i%ROWS < V[Math.floor(i/ROWS)]; };
+  var spots=imgs.map(function(_,i){ return i; }).sort(function(){ return rnd()-.5; });
+  spots=spots.filter(function(i){ return !doomed(i); }).concat(spots.filter(doomed));
+  function fill(urls){ urls.slice(0, spots.length).forEach(function(u,k){ imgs[spots[k]].setAttribute('href', u); }); }
+  var local=[]; for (var f=1; f<=DATA.faceCount; f++) local.push('images/faces/face-' + (f<10?'0':'') + f + '.jpg');
+  fill(local);
+  if (local.length < spots.length && window.fetch){
+    fetch('/.netlify/functions/faces').then(function(r){ return r.ok ? r.json() : { faces: [] }; })
+      .then(function(d){ fill(local.concat(d.faces || [])); }).catch(function(){});
   }
   draw(0);
   onEnter(svg, function(now){ if (now) return draw(1); tween(5200, draw); }, 0.45);
