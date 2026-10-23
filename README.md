@@ -44,3 +44,9 @@ Three figures come from [this notebook](https://github.com/abettercambridge/publ
 - **Rindge Ave before/after:** the "one lot" section (`#win`) uses drawings. Two sample sketches inspired by real life are in `images/`: `modern-gable.svg` (single-family modernist mansion) and `nine-unit.svg` (nine-home building).
 - **Timeline:** update `index.html` (the ask), `act.html` and `events.js` when the city sets hearing and vote dates.
 - **Link previews:** once the domain points at Netlify, check `share.png` and `og:url` with a preview checker such as opengraph.xyz.
+
+## Neighbors' faces and stories
+
+- **Carousel** ("We want to live here", under the hero): built from `DATA.stories` in `index.html`, photos in `images/stories/`. Edited by hand only; new form submissions never appear here.
+- **Pushed out graphic**: fills its faces from `images/faces/face-01.jpg` to `face-NN.jpg` (set `DATA.faceCount`), faces the red bars leave standing first. Photos sent through the story form on `stories.html` are added on their own by `netlify/functions/faces.mjs`, oldest first, until all 50 spots are full.
+- To turn the auto-add on, set `NETLIFY_API_TOKEN` (a personal access token from someone on the Netlify team) under Site configuration > Environment variables, then redeploy. To keep a photo off, add its submission id to `HIDE_FACES` (comma-separated).
