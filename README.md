@@ -14,7 +14,7 @@ Then open http://localhost:8000. The two forms only work on Netlify.
 
 ## Deploy
 
-The site is hosted on Netlify. Push to the linked repo, or drag the folder onto app.netlify.com/drop. After the first deploy, turn on form detection under Site settings > Forms. `_headers` sets caching: HTML is re-checked on every visit, and images are cached.
+The site is hosted on Netlify. Push to the linked repo, or drag the folder onto app.netlify.com/drop. After the first deploy, turn on form detection under Site settings > Forms. `_headers` sets caching: HTML is re-checked on every visit, images are cached, and PDFs in `files/` are cached for a day so a replaced file shows up quickly.
 
 ## Pages
 
@@ -23,16 +23,21 @@ The site is hosted on Netlify. Push to the linked repo, or drag the folder onto 
 | `index.html` | Homepage: the story from 1930s zoning to the 2025 ordinance and the proposed rollback, then the ask |
 | `act.html` | Email the Council (an editable letter), pledge to attend (the `pledge` form), and the timeline |
 | `stories.html` | Share your story: build a story card with a photo (the `story` form) |
+| `poll.html` | 2026 Embold Research poll results: highlights, charts, resident quotes and methodology |
 | `numbers.html` | Every figure and its source, plus the zoning, diversity and new homes maps |
 | `thanks.html`, `pledged.html` | Where the story and pledge forms land after submitting (not indexed by search engines) |
 | `privacy.html` | How form information is used |
 | `events.js` | Upcoming events, shared by `index.html`, `act.html` and `pledged.html` |
 | `storycards.js` | Story card layouts, shared by `index.html` and `stories.html` |
 | `share.png` | Link preview image (1200×630) |
+| `share-poll.jpg` | Link preview image for `poll.html` (1200×630), the 64% cover |
+| `files/` | Downloadable PDFs linked from `poll.html`: the Embold polling memo and methodology |
 
 ## Updating numbers
 
 Homepage figures live in `var DATA = {...}` at the top of the last `<script>` in `index.html`. Each figure also has a row on `numbers.html`, so change both together.
+
+Poll figures live in `var POLL = {...}` in the last `<script>` in `poll.html`, which draws the charts. Three of them (64%, 84%, 86%) also appear in the homepage poll band and on `numbers.html`.
 
 Three figures come from [this notebook](https://github.com/abettercambridge/public-posts/blob/main/cambridge-housing-affordability/notebooks/affordable_cambridge_website_citations.ipynb) in `public-posts`: net homes by neighborhood, the West Cambridge −46, and the home value series. Re-run it when the permit or Zillow data is refreshed.
 

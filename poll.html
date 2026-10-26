@@ -9,10 +9,10 @@
 <meta property="og:description" content="Cambridge voters back the Multifamily Housing Ordinance, 64% to 28%, and 84% say housing affordability should be a top priority for the City Council.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://affordablecambridge.org/poll.html">
-<meta property="og:image" content="https://affordablecambridge.org/share.png">
+<meta property="og:image" content="https://affordablecambridge.org/share-poll.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Affordable Cambridge: Wealthy landowners are pushing housing out of reach. Help us fight back.">
+<meta property="og:image:alt" content="New poll, October 2026: 64% support the Multifamily Housing Ordinance.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -157,6 +157,8 @@ nav.main a.nav-ask:hover{background:var(--yellow-hover)}
 .btn-head{border-radius:9999px;padding:8px 14px;letter-spacing:.04em;color:var(--ink)}
 .menu-btn{border-radius:9999px;padding:6px 14px;font-family:var(--sans)}
 @media (max-width:780px){nav.main a{border-bottom:2px solid var(--line)}nav.main a.nav-ask{border:0}}
+/* small phones: the Porch Teal padding above overrides the 400px rules, so shrink the header buttons again here */
+@media (max-width:400px){.btn-head{padding:6px 8px}.menu-btn{padding:4px 8px}.head-right{gap:8px}}
 
 /* buttons: yellow pill = the one action, teal pill = everything else */
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:0;border-radius:9999px;background:var(--teal);color:var(--on-teal);font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.04em;line-height:1.1;text-align:center}
@@ -267,11 +269,9 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
   <p class="lede">A new Embold Research survey of 442 Cambridge voters finds that housing affordability is a top priority, and that nearly two in three voters support the Multifamily Housing Ordinance. Support is strongest among young people and renters.</p>
   <div class="downloads">
     <p>Download the results:</p>
-    <!-- TODO: swap in the real files before launch. -->
     <div class="btn-row">
-      <a class="btn" href="#">Polling Memo</a>
-      <a class="btn" href="#">Methodology</a>
-      <a class="btn" href="#">[Placeholder?]</a>
+      <a class="btn" href="files/EmboldPollingResultsMemoOct26.pdf">Polling Memo</a>
+      <a class="btn" href="files/EmboldPollingMethodologyOct26.pdf">Methodology</a>
     </div>
   </div>
   <ul class="stats">
@@ -282,7 +282,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
 </section>
 
 <section class="finding" aria-labelledby="f1-h">
-  <h2 id="f1-h">Affordable housing needs to be a top priority</h2>
+  <h2 id="f1-h">Housing affordability needs to be a top priority</h2>
   <div class="prose">
     <p><b>More than eight in ten Cambridge voters (84%) say housing affordability should be the "single top priority" or "one of the top priorities" for the City Council.</b> That view holds across the city. It's strongest among voters under 35 (94%), and almost every renter (96%) agrees.</p>
   </div>
@@ -292,7 +292,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
 <section class="finding" aria-labelledby="f2-h">
   <h2 id="f2-h">The shortage is taking a personal toll</h2>
   <div class="prose">
-    <p><b>Eight in ten voters say they or someone close to them has been affected by the cost or availability of housing in Cambridge.</b> Respondents included tenured academics, young renters who don't expect to ever buy, and families afraid of being priced out.</p>
+    <p><b>Eight in ten voters say they or someone close to them has been affected by the cost or availability of housing in Cambridge.</b> Respondents included academics, young renters who don't expect to ever buy, and families afraid of being priced out.</p>
     <p>Many say the cost of housing is the main reason they're thinking about leaving Cambridge, and that they've watched others leave for the same reason.</p>
   </div>
   <ul class="quotes">
@@ -301,7 +301,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
     <li class="quote">"It is by far the most stressful factor in my life and rent going up again this September has caused me to seriously consider moving out of Cambridge."<cite>Cambridge voter</cite></li>
     <li class="quote">"If it wasn't for income restricted apartment buildings I wouldn't be able to live here."<cite>Cambridge voter</cite></li>
     <li class="quote">"I feel that I contribute meaningfully to this community as a citizen and neighbor, but my long-term ability to live in Cambridge is jeopardized by the lack of affordable rental and home ownership."<cite>Cambridge voter</cite></li>
-    <li class="quote">"We are tenured academics, one at Harvard and the other at Rutgers&hellip; Our children are in their 20s and have told us already that they cannot imagine ever being able to live (buying or renting) in the neighborhood where they have grown up."<cite>Cambridge voter</cite></li>
+    <li class="quote">"We are tenured academics&hellip; Our children are in their 20s and have told us already that they cannot imagine ever being able to live (buying or renting) in the neighborhood where they have grown up."<cite>Cambridge voter</cite></li>
   </ul>
 </section>
 
@@ -327,7 +327,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
 <section class="poll-ask" aria-labelledby="ask-h">
   <h2 id="ask-h">The Council should listen to voters</h2>
   <div class="prose">
-    <p>Cambridge voters want more homes they can afford, and they support the ordinance that allows them. The Council is now weighing changes to it. Tell them what most of the city already thinks.</p>
+    <p>Cambridge voters want more homes they can afford, and they support the ordinance that allows those homes to be built. The Council is now weighing changes to that ordinance. Tell them what most of the city already thinks!</p>
   </div>
   <div class="btn-row">
     <a class="btn btn-ask" href="act.html#email">Email the Council</a>
@@ -338,7 +338,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
 
 <section class="method" aria-labelledby="method-h">
   <h2 id="method-h">About the poll</h2>
-  <p>Embold Research conducted the poll online from September 28 to October 4, 2026, surveying 442 registered voters in Cambridge, MA using Dynamic Online Sampling. Results were weighted by age, gender, race and ethnicity, education, and 2024 presidential vote. The margin of error is &plusmn;4.9 points. Numbers may not add to 100 because of rounding. <!-- TODO: real methodology link --><a href="#">Full methodology statement</a>.</p>
+  <p>Embold Research conducted the poll online from September 28 to October 4, 2026, surveying 442 registered voters in Cambridge, MA using Dynamic Online Sampling. Results were weighted by age, gender, race and ethnicity, education, and 2024 presidential vote. The margin of error is &plusmn;4.9 points. Numbers may not add to 100 because of rounding. <a href="files/EmboldPollingMethodologyOct26.pdf">Full methodology statement</a>.</p>
 </section>
 
 </div>
@@ -414,7 +414,8 @@ var POLL={
         segs.forEach(function(v,i){
           var s=el('span','seg'+(d.keys[i][2]?' on-dark':''),v>=5?String(v):'');
           s.style.background=d.keys[i][1];
-          s.style.flex='0 0 calc('+(v/scale*100)+'% - 2px)';
+          // Leave 44px after a "top priority" bar for its total label.
+          s.style.flex='0 0 calc((100% - '+(d.total?44:0)+'px) * '+(v/scale)+' - 2px)';
           s.title=d.keys[i][0]+': '+v+'%';
           bar.appendChild(s);
         });

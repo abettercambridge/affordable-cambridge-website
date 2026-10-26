@@ -157,6 +157,8 @@ nav.main a.nav-ask:hover{background:var(--yellow-hover)}
 .btn-head{border-radius:9999px;padding:8px 14px;letter-spacing:.04em;color:var(--ink)}
 .menu-btn{border-radius:9999px;padding:6px 14px;font-family:var(--sans)}
 @media (max-width:780px){nav.main a{border-bottom:2px solid var(--line)}nav.main a.nav-ask{border:0}}
+/* small phones: the Porch Teal padding above overrides the 400px rules, so shrink the header buttons again here */
+@media (max-width:400px){.btn-head{padding:6px 8px}.menu-btn{padding:4px 8px}.head-right{gap:8px}}
 
 /* buttons: yellow pill = the one action, teal pill = everything else */
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:0;border-radius:9999px;background:var(--teal);color:var(--on-teal);font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.04em;line-height:1.1;text-align:center}

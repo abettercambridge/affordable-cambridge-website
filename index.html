@@ -273,6 +273,8 @@ nav.main a.nav-ask:hover{background:var(--yellow-hover)}
 .btn-head{border-radius:9999px;padding:8px 14px;letter-spacing:.04em;color:var(--ink)}
 .menu-btn{border-radius:9999px;padding:6px 14px;font-family:var(--sans)}
 @media (max-width:780px){nav.main a{border-bottom:2px solid var(--line)}nav.main a.nav-ask{border:0}}
+/* small phones: the Porch Teal padding above overrides the 400px rules, so shrink the header buttons again here */
+@media (max-width:400px){.btn-head{padding:6px 8px}.menu-btn{padding:4px 8px}.head-right{gap:8px}}
 
 /* buttons: yellow pill = the one action, teal pill = everything else */
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:0;border-radius:9999px;background:var(--teal);color:var(--on-teal);font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.04em;line-height:1.1;text-align:center}
@@ -1051,7 +1053,7 @@ footer.site{border-top:6px solid var(--rose)}
         <h2>Homes merged <span class="st-red st-line">into mansions.</span></h2>
         <p class="st-sub">In West Cambridge, two and three-family houses were converted to single-family homes.</p>
         <div class="st-stat"><b id="convNum">0</b><span>homes lost to single-family conversions</span></div>
-        <p class="source">City of Cambridge building permits, West Cambridge, 1996 to 2024. <a href="numbers.html">[Citations]]</a></p>
+        <p class="source">City of Cambridge building permits, West Cambridge, 1996 to 2024. <a href="numbers.html">[Citations]</a></p>
       </div>
       <div class="st-panel" data-beat="win">
         <h2 class="st-teal">In 2025, we legalized homes for everyone.</h2>
@@ -1560,12 +1562,15 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   // The story plays on its own once half of it is on screen: about 14 seconds from 1930 to the 2025 win.
-  var BASE = 14000, EXTRA = 3000, DUR = BASE + EXTRA, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
-  // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE
+  var BASE = 14000, EXTRA = 3000, HOLD = 600, DUR = BASE + EXTRA + HOLD, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
+  // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE,
+  // plus a HOLD ms pause at .66, right as the counter reaches -46 and before the houses fade and the map zooms out
   function warp(u){
-    var ms = u * DUR, a = .44 * BASE, b = a + .26 * BASE + EXTRA;
+    var ms = u * DUR, a = .44 * BASE, beat = .26 * BASE + EXTRA, h = a + beat * (.22 / .26), b = a + beat + HOLD;
     if (ms < a) return ms / BASE;
-    if (ms < b) return .44 + (ms - a) / (b - a) * .26;
+    if (ms < h) return .44 + (ms - a) / beat * .26;
+    if (ms < h + HOLD) return .66;
+    if (ms < b) return .66 + (ms - h - HOLD) / beat * .26;
     return Math.min(1, .70 + (ms - b) / BASE);
   }
   function frame(now){
