@@ -1300,9 +1300,9 @@ var DATA = {
     { photo:'stories/sam',    name:'Sam',        where:'Baldwin resident',   quote:'I want my family to be within walking distance of our friends' },
     { photo:'stories/dana',   name:'Dana',       where:'Cambridgeport resident', quote:'I love being part of an inspiring, engaged community and I care deeply about its people and its future' }
   ],
-  // Pushed out graphic: neighbors' selfies fill the faces (images/faces/face-NN.jpg), then story-form photos are added
-  // automatically (netlify/functions/faces.mjs) until all 50 spots are full. Bump faceCount when you add files.
-  faceCount: 19,
+  // Pushed out graphic: neighbors' photos fill the faces (images/faces/face-NN.jpg), added by hand only.
+  // Bump faceCount when you add files.
+  faceCount: 18,
   // Pushed out: 10 columns of 5 faces, 2006 to 2022. The 26 faces lost stand for the 129,800 net loss of 25 to 44-year-olds, about 5,000 each.
   // The total is sourced (Boston Indicators); how it splits across the columns is approximate, rising toward 2022.
   migStart: 2006, migEnd: 2022,
@@ -1756,10 +1756,6 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
   function fill(urls){ urls.slice(0, spots.length).forEach(function(u,k){ imgs[spots[k]].setAttribute('href', u); }); }
   var local=[]; for (var f=1; f<=DATA.faceCount; f++) local.push('images/faces/face-' + (f<10?'0':'') + f + '.jpg');
   fill(local);
-  if (local.length < spots.length && window.fetch){
-    fetch('/.netlify/functions/faces').then(function(r){ return r.ok ? r.json() : { faces: [] }; })
-      .then(function(d){ fill(local.concat(d.faces || [])); }).catch(function(){});
-  }
   draw(0);
   onEnter(svg, function(now){ if (now) return draw(1); tween(5200, draw); }, 0.45);
 })();
