@@ -1564,7 +1564,7 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   // The story plays on its own once half of it is on screen: about 14 seconds from 1930 to the 2025 win.
-  var BASE = 14000, EXTRA = 3000, HOLD = 600, DUR = BASE + EXTRA + HOLD, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
+  var BASE = 14000, EXTRA = 3000, HOLD = 1000, DUR = BASE + EXTRA + HOLD, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
   // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE,
   // plus a HOLD ms pause at .66, right as the counter reaches -46 and before the houses fade and the map zooms out
   function warp(u){
