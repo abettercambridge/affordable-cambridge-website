@@ -460,6 +460,7 @@ section.frame.hook{background:var(--teal);color:var(--on-teal)}
 .rules li::before{content:"";position:absolute;left:0;top:20px;width:12px;height:12px;border-radius:50%;background:var(--red)}
 .rules h3{font-size:1.5rem}
 .rules p{color:var(--muted);font-size:1rem;margin-top:4px}
+.rules-then{border-top:2px solid var(--line);padding-top:14px;margin-top:2px;font-weight:700;font-size:1.15rem;line-height:1.4;max-width:460px}
 .nowsvg{display:block;width:100%;height:auto;margin-top:8px}
 
 /* 5. never built */
@@ -556,9 +557,11 @@ section.frame.hook{background:var(--teal);color:var(--on-teal)}
 /* now: rules light up one at a time; then the whole block shrinks */
 .js .rules li{opacity:.4;transition:opacity .35s}
 .rules li.on{opacity:1}
+.js .rules-then{opacity:.4;transition:opacity .35s}
+.rules-then.on{opacity:1}
 .blockcap{font-size:.9rem;margin-top:6px}
 .blockcap span{color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.js .rules li{opacity:1}}
+@media (prefers-reduced-motion:reduce){.js .rules li,.js .rules-then{opacity:1}}
 /* hook: the highlight wipes in */
 .js .hl{background:linear-gradient(var(--rose),var(--rose)) no-repeat 0 0/0% 100%;transition:background-size .9s ease .3s;color:inherit}
 .js .hl.on{background-size:100% 100%;color:var(--ink)}
@@ -1117,7 +1120,7 @@ footer.site{border-top:6px solid var(--rose)}
   <div class="wrap two lot">
     <div class="rise">
       <h2 id="lot-h">Now homes can be built <span class="lot-pink">for everyone</span><span class="lot-y">, not just mansions for the wealthy.</span></h2>
-      <p class="lot-p"> On a lot in North Cambridge, a small detached home was slated to become a large mansion. After 2025, plans changed, to build four stories for nine families.</p>
+      <p class="lot-p"> On a lot in North Cambridge, a small detached home was slated to become a large mansion. After the 2025 re-zoning, plans changed, to build four stories for nine families.</p>
     </div>
     <figure class="lot-fig" id="lotFig">
       <div class="lot-pair">
@@ -1177,16 +1180,17 @@ footer.site{border-top:6px solid var(--rose)}
   <div class="wrap two">
     <div class="rise">
       <h2 id="now-h">Wealthy landowners want it rolled back.</h2>
-      <p class="sub">That means more expensive homes for all.</p>
+      <p class="sub">That means fewer, more expensive homes.</p>
       <ul class="rules">
         <li><h3>Wider setbacks</h3><p>Less of every lot can be built on</p></li>
-        <li><h3>More wasted space</h3><p>More of each lot kept as bare ground</p></li>
+        <li><h3>More wasted space</h3><p>More suburban-style lots</p></li>
       </ul>
+      <p class="rules-then">Thousands of existing Cambridge homes would become illegal to build today.</p>
     </div>
     <div id="nowViz">
-      <svg id="nowSvg" class="nowsvg" viewBox="638 215 540 495" role="img" aria-label="One building with 12 homes shrinks to 3 under the rollback, 9 homes lost. Then all the proposed housing projects shrink, one by one."></svg>
+      <svg id="nowSvg" class="nowsvg" viewBox="638 215 540 495" role="img" aria-label="One building with 12 homes shrinks to 3 under the rollback, 9 homes lost. Then a block of new buildings shrinks the same way, one by one, with dashed red outlines showing the size each one could have been."></svg>
       <p class="blockcap"><b>Then all the proposed housing projects shrink, one by one.</b></p>
-      <p class="source">Illustration of a 12-home building under the proposed rules; not a specific project. Rules: City of Cambridge staff proposal, June 2026. <a href="numbers.html">Context</a>.</p>
+      <p class="source">The red outlines illustrate how 8&ndash;12 home buildings would shrink under the proposed rules; not specific projects. Rules: City of Cambridge staff proposal, June 2026. <a href="numbers.html">Context</a>.</p>
     </div>
   </div>
 </section>
@@ -1537,12 +1541,15 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   // The story plays on its own once half of it is on screen: about 14 seconds from 1930 to the 2025 win.
-  var BASE = 14000, EXTRA = 3000, DUR = BASE + EXTRA, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
-  // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE
+  var BASE = 14000, EXTRA = 3000, HOLD = 1000, DUR = BASE + EXTRA + HOLD, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
+  // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE,
+  // plus a HOLD ms pause at .66, right as the counter reaches -46 and before the houses fade and the map zooms out
   function warp(u){
-    var ms = u * DUR, a = .44 * BASE, b = a + .26 * BASE + EXTRA;
+    var ms = u * DUR, a = .44 * BASE, beat = .26 * BASE + EXTRA, h = a + beat * (.22 / .26), b = a + beat + HOLD;
     if (ms < a) return ms / BASE;
-    if (ms < b) return .44 + (ms - a) / (b - a) * .26;
+    if (ms < h) return .44 + (ms - a) / beat * .26;
+    if (ms < h + HOLD) return .66;
+    if (ms < b) return .66 + (ms - h - HOLD) / beat * .26;
     return Math.min(1, .70 + (ms - b) / BASE);
   }
   function frame(now){
@@ -1636,13 +1643,15 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   var T0=1.8, T1=9;   // start with the building held for a moment, as in the 05 scene
-  var rules=[].slice.call(document.querySelectorAll('.rules li'));
+  var rules=[].slice.call(document.querySelectorAll('.rules li, .rules-then'));
   function frame(t){ draw(t); }
   frame(T0);
   onEnter($('nowViz'), function(now){
     if (now){ rules.forEach(function(li){ li.classList.add('on'); }); return frame(T1); }
     rules.forEach(function(li,i){ setTimeout(function(){ li.classList.add('on'); }, i*450); });
-    setTimeout(function(){ tween((T1-T0)*1000, function(p){ frame(T0+p*(T1-T0)); }); }, 800);
+    // hold for LOST_HOLD seconds once "9 homes lost" is fully shown (t=5.1), before the block comes in
+    var LOST_AT=5.1, LOST_HOLD=1, span=T1-T0+LOST_HOLD;
+    setTimeout(function(){ tween(span*1000, function(p){ var e=T0+p*span; frame(e<LOST_AT?e:e<LOST_AT+LOST_HOLD?LOST_AT:e-LOST_HOLD); }); }, 800);
   }, 0.3);
 })();
 
