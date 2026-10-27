@@ -460,6 +460,7 @@ section.frame.hook{background:var(--teal);color:var(--on-teal)}
 .rules li::before{content:"";position:absolute;left:0;top:20px;width:12px;height:12px;border-radius:50%;background:var(--red)}
 .rules h3{font-size:1.5rem}
 .rules p{color:var(--muted);font-size:1rem;margin-top:4px}
+.rules-then{border-top:2px solid var(--line);padding-top:14px;margin-top:2px;font-weight:700;font-size:1.15rem;line-height:1.4;max-width:460px}
 .nowsvg{display:block;width:100%;height:auto;margin-top:8px}
 
 /* 5. never built */
@@ -556,9 +557,11 @@ section.frame.hook{background:var(--teal);color:var(--on-teal)}
 /* now: rules light up one at a time; then the whole block shrinks */
 .js .rules li{opacity:.4;transition:opacity .35s}
 .rules li.on{opacity:1}
+.js .rules-then{opacity:.4;transition:opacity .35s}
+.rules-then.on{opacity:1}
 .blockcap{font-size:.9rem;margin-top:6px}
 .blockcap span{color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.js .rules li{opacity:1}}
+@media (prefers-reduced-motion:reduce){.js .rules li,.js .rules-then{opacity:1}}
 /* hook: the highlight wipes in */
 .js .hl{background:linear-gradient(var(--rose),var(--rose)) no-repeat 0 0/0% 100%;transition:background-size .9s ease .3s;color:inherit}
 .js .hl.on{background-size:100% 100%;color:var(--ink)}
@@ -1177,15 +1180,16 @@ footer.site{border-top:6px solid var(--rose)}
   <div class="wrap two">
     <div class="rise">
       <h2 id="now-h">Wealthy landowners want it rolled back.</h2>
-      <p class="sub">That means more expensive homes for all.</p>
+      <p class="sub">That means fewer, more expensive homes.</p>
       <ul class="rules">
         <li><h3>Wider setbacks</h3><p>Less of every lot can be built on</p></li>
-        <li><h3>More wasted space</h3><p>More of each lot kept as bare ground</p></li>
+        <li><h3>More mandated private open space</h3><p>More suburban-style lots</p></li>
       </ul>
+      <p class="rules-then">Thousands of existing Cambridge homes would become illegal to build today.</p>
     </div>
     <div id="nowViz">
-      <svg id="nowSvg" class="nowsvg" viewBox="638 215 540 495" role="img" aria-label="One building with 12 homes shrinks to 3 under the rollback, 9 homes lost. Then all the proposed housing projects shrink, one by one."></svg>
-      <p class="blockcap"><b>Then all the proposed housing projects shrink, one by one.</b></p>
+      <svg id="nowSvg" class="nowsvg" viewBox="638 215 540 495" role="img" aria-label="One building with 12 homes shrinks to 3 under the rollback, 9 homes lost. Then a block of new buildings shrinks the same way, one by one, with dashed red outlines showing the size each one could have been."></svg>
+      <p class="blockcap"><b>The red outlines demonstrate how proposed rules would shrink new buildings.</b></p>
       <p class="source">Illustration of a 12-home building under the proposed rules; not a specific project. Rules: City of Cambridge staff proposal, June 2026. <a href="numbers.html">Context</a>.</p>
     </div>
   </div>
@@ -1636,7 +1640,7 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   var T0=1.8, T1=9;   // start with the building held for a moment, as in the 05 scene
-  var rules=[].slice.call(document.querySelectorAll('.rules li'));
+  var rules=[].slice.call(document.querySelectorAll('.rules li, .rules-then'));
   function frame(t){ draw(t); }
   frame(T0);
   onEnter($('nowViz'), function(now){
