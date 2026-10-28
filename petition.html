@@ -279,11 +279,24 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
       <p class="pdf"><a href="files/MFHPetitionText.pdf">Download the petition (PDF)</a></p>
   </div>
 </section>
-<section class="band band-pledge" id="pledge">
+<!-- Old anchor: links shared as #pledge still land here. The form itself is named "pledge" separately; see the comment inside. -->
+<div id="pledge" aria-hidden="true"></div>
+<section class="band band-pledge" id="sign">
   <div class="wrap narrow">
       <h2>Sign the petition</h2>
       <p>We'll deliver your name to the City Council in support of multifamily housing, but your presence will have the most impact. Pledge to speak at public comment and we'll tell you when and where.</p>
-      <!-- Same form as act.html: keep the fields identical so Netlify sees one "pledge" form. Only the source value differs. -->
+      <!--
+        DO NOT RENAME OR CHANGE THIS FORM'S FIELDS WITHOUT READING THIS.
+        This is a Netlify form. Netlify finds it in the HTML at deploy time and stores submissions by its name.
+        - Keep name="pledge" and the hidden form-name value "pledge". Changing either starts a NEW, empty form
+          in Netlify; past signatures stay under "pledge" and new ones go somewhere else.
+        - The same form is on act.html. Both copies must keep identical field names (name, email, phone,
+          neighborhood, will_speak, updates_ok, source, company). A field missing from one copy can be dropped silently.
+        - Only the hidden "source" value differs between the copies.
+        - Labels, button text and the copy around the form are safe to edit. Field name="..." attributes are not.
+        - The section anchor (#sign, plus the old #pledge marker above) is separate from the form name; it only
+          controls where links scroll to.
+      -->
       <form name="pledge" method="POST" data-netlify="true" netlify-honeypot="company" action="pledged.html">
         <input type="hidden" name="form-name" value="pledge">
         <input type="hidden" name="source" value="petition">
