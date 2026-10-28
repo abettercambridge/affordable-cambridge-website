@@ -157,6 +157,9 @@ nav.main a.nav-ask:hover{background:var(--yellow-hover)}
 .btn-head{border-radius:9999px;padding:8px 14px;letter-spacing:.04em;color:var(--ink)}
 .menu-btn{border-radius:9999px;padding:6px 14px;font-family:var(--sans)}
 @media (max-width:780px){nav.main a{border-bottom:2px solid var(--line)}nav.main a.nav-ask{border:0}}
+/* five nav items: keep labels on one line and tighten spacing just above the phone menu */
+nav.main a{white-space:nowrap}
+@media (min-width:781px) and (max-width:960px){nav.main ul{gap:14px}nav.main a{font-size:.85rem}nav.main a.nav-ask{padding:0 14px}.brand span{font-size:.75rem}}
 /* small phones: the Porch Teal padding above overrides the 400px rules, so shrink the header buttons again here */
 @media (max-width:400px){.btn-head{padding:6px 8px}.menu-btn{padding:4px 8px}.head-right{gap:8px}}
 
@@ -203,7 +206,7 @@ footer.site strong{font-size:.8125rem;letter-spacing:.1em;text-transform:upperca
     </div>
     <nav class="main" id="mainNav" aria-label="Main">
       <ul>
-        <li><a href="index.html">The Issue</a></li><li><a href="numbers.html">The numbers</a></li><li><a href="stories.html">Share your story</a></li><li><a href="act.html" class="nav-ask">Take action</a></li>
+        <li><a href="index.html">The Issue</a></li><li><a href="numbers.html">The numbers</a></li><li><a href="neighbors.html">Neighbors</a></li><li><a href="stories.html">Share your story</a></li><li><a href="act.html" class="nav-ask">Take action</a></li>
       </ul>
     </nav>
   </div>
