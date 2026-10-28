@@ -953,6 +953,11 @@ footer.site{border-top:6px solid var(--rose)}
 /* ===== v39: the past plays on its own; one stat row for pushed out; hero is shorter ===== */
 .js .story{height:auto}
 .js .st-stage{position:static;height:calc(100svh - var(--head-h) - 72px);min-height:600px;max-height:840px}
+/* phones: let the story grow past one screen so the map keeps its full size (the cards can sit below the fold) */
+@media (max-width:760px){
+  .js .st-stage{height:auto;min-height:0;max-height:none}
+  .st-canvas{flex:none;aspect-ratio:612/444}
+}
 .st-foot{position:relative;max-width:1120px;margin:0 auto;padding:0 22px 22px}
 .st-prog{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
 .st-prog i{display:block;height:100%;background:var(--teal);transform-origin:0 50%;transform:scaleX(0)}
