@@ -151,6 +151,7 @@ section.frame>.wrap{width:100%}
 .card .says em{font-style:normal;color:var(--muted)}
 .card .who{font-size:.85rem;color:var(--muted);margin-top:auto}
 .card.yours{background:var(--yellow);justify-content:center}
+.card-more{display:inline-block;margin-top:10px;font-weight:700;font-size:.9rem;color:var(--teal);text-decoration:underline;text-underline-offset:3px}
 .card.yours .big{font-size:1.8rem;font-weight:800;line-height:1.1}
 .card{will-change:transform}
 @media (max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
@@ -273,6 +274,9 @@ nav.main a.nav-ask:hover{background:var(--yellow-hover)}
 .btn-head{border-radius:9999px;padding:8px 14px;letter-spacing:.04em;color:var(--ink)}
 .menu-btn{border-radius:9999px;padding:6px 14px;font-family:var(--sans)}
 @media (max-width:780px){nav.main a{border-bottom:2px solid var(--line)}nav.main a.nav-ask{border:0}}
+/* five nav items: keep labels on one line and tighten spacing just above the phone menu */
+nav.main a{white-space:nowrap}
+@media (min-width:781px) and (max-width:960px){nav.main ul{gap:14px}nav.main a{font-size:.85rem}nav.main a.nav-ask{padding:0 14px}.brand span{font-size:.75rem}}
 /* small phones: the Porch Teal padding above overrides the 400px rules, so shrink the header buttons again here */
 @media (max-width:400px){.btn-head{padding:6px 8px}.menu-btn{padding:4px 8px}.head-right{gap:8px}}
 
@@ -1018,7 +1022,7 @@ footer.site{border-top:6px solid var(--rose)}
     </div>
     <nav class="main" id="mainNav" aria-label="Main">
       <ul>
-        <li><a href="index.html" aria-current="page">The Issue</a></li><li><a href="numbers.html">The numbers</a></li><li><a href="poll.html">The poll</a></li><li><a href="stories.html">Share your story</a></li><li><a href="act.html" class="nav-ask">Take action</a></li>
+        <li><a href="index.html" aria-current="page">The Issue</a></li><li><a href="numbers.html">The numbers</a></li><li><a href="poll.html">The poll</a></li><li><a href="neighbors.html">Neighbors</a></li><li><a href="stories.html">Share your story</a></li><li><a href="act.html" class="nav-ask">Take action</a></li>
       </ul>
     </nav>
   </div>
@@ -1346,11 +1350,11 @@ var DATA = {
   // We want to live here: the carousel. Real neighbors who said yes to sharing their name and photo. Quotes finish "I want to live here because".
   // Photos in images/stories/. Only edit by hand; new form submissions are not added here.
   stories: [
-    { photo:'stories/ty',     name:'Ty',         where:'Former resident',   quote:'Cambridge is a great place for young families' },
-    { photo:'stories/hallie', name:'Hallie',     where:'MIT grad student',  quote:'the people here have changed my life' },
-    { photo:'stories/aaron',  name:'Aaron',      where:'Cambridge resident', quote:'of the great public transit, delightful little parks and a strong community' },
+    { photo:'stories/ty',     story:'ty',     name:'Ty',         where:'Former resident',   quote:'Cambridge is a great place for young families' },
+    { photo:'stories/hallie', story:'hallie', name:'Hallie',     where:'MIT grad student',  quote:'the people here have changed my life' },
+    { photo:'stories/aaron',  story:'aaron',  name:'Aaron',      where:'Cambridge resident', quote:'of the great public transit, delightful little parks and a strong community' },
     { photo:'stories/neheet', name:'Neheet',     where:'Cambridge resident', quote:'of the people, the community, the trees, the seasons' },
-    { photo:'stories/andy',   name:'Andy',       where:'West Cambridge resident', quote:'of the walkability, bikability and access to transit' },
+    { photo:'stories/andy',   story:'andy-t', name:'Andy',       where:'West Cambridge resident', quote:'of the walkability, bikability and access to transit' },
     { photo:'stories/sam',    name:'Sam',        where:'Baldwin resident',   quote:'I want my family to be within walking distance of our friends' },
     { photo:'stories/dana',   name:'Dana',       where:'Cambridgeport resident', quote:'I love being part of an inspiring, engaged community and I care deeply about its people and its future' },
     { photo:'stories/arielle', name:'Arielle',   where:'Cambridge resident', quote:'I never knew all my neighbours by name until I lived here' }
@@ -1431,7 +1435,9 @@ setTimeout(function(){ $('hl').classList.add('on'); }, reduce ? 0 : 100);
   if (tints.length > 1 && tints[0] === tints[tints.length - 1]){ var t = tints[0]; tints[0] = tints[1]; tints[1] = t; } // the row loops, so the ends meet
   function card(st, k){
     var c = { name: st.name, where: st.where, quote: st.quote, photo: st.photo ? 'images/' + st.photo + '.jpg' : '', x: st.x, y: st.y, zoom: st.zoom, color: st.color || tints[k] };
-    return '<figure class="card sc">' + StoryCard.html(c, st.layout || looks[k]) + '</figure>';
+    // a longer story on neighbors.html gets a link under the card
+    var more = st.story ? '<a class="card-more" href="neighbors.html#' + st.story + '">Read ' + st.name + '&rsquo;s story &rarr;</a>' : '';
+    return '<figure class="card sc">' + StoryCard.html(c, st.layout || looks[k]) + more + '</figure>';
   }
   var one = S.map(card).join('');
   // three copies: start in the middle one, and jump a full set when you near either end
