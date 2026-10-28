@@ -963,6 +963,11 @@ footer.site{border-top:6px solid var(--rose)}
 /* ===== v39: the past plays on its own; one stat row for pushed out; hero is shorter ===== */
 .js .story{height:auto}
 .js .st-stage{position:static;height:calc(100svh - var(--head-h) - 72px);min-height:600px;max-height:840px}
+/* phones: let the story grow past one screen so the map keeps its full size (the cards can sit below the fold) */
+@media (max-width:760px){
+  .js .st-stage{height:auto;min-height:0;max-height:none}
+  .st-canvas{flex:none;aspect-ratio:612/444}
+}
 .st-foot{position:relative;max-width:1120px;margin:0 auto;padding:0 22px 22px}
 .st-prog{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
 .st-prog i{display:block;height:100%;background:var(--teal);transform-origin:0 50%;transform:scaleX(0)}
@@ -973,6 +978,19 @@ footer.site{border-top:6px solid var(--rose)}
 @keyframes stBob{0%,100%{transform:translateY(-2px)}50%{transform:translateY(4px)}}
 .st-replay{position:absolute;right:12px;bottom:12px;z-index:5;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.18);font:inherit;font-weight:700;font-size:.85rem;padding:6px 14px;border-radius:9999px;border:2px solid var(--teal);background:var(--surface);color:var(--teal);cursor:pointer}
 .st-replay[hidden]{display:none}
+/* after the story ends: chapter pills next to Replay, in a row between the map and its key */
+.st-vis .st-canvas{order:1}
+.st-vis figcaption{order:3}
+.st-chips{order:2;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:10px}
+.st-chips[hidden]{display:none}
+.st-chips .st-replay{position:static}
+.st-chips .st-replay[aria-pressed="true"]{background:var(--teal);color:var(--on-teal)}
+@media (max-width:700px){
+  .st-chips{justify-content:flex-start;gap:6px}
+  .st-chips .st-replay{font-size:.75rem;padding:5px 10px;box-shadow:none;white-space:nowrap}
+  .st-chips #stReplay{padding:5px 9px}
+  .st-chips #stReplay .rl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+}
 .st-replay svg{width:14px;height:14px;fill:currentColor}
 @media (prefers-reduced-motion:reduce){.st-foot.done .st-more svg{animation:none}}
 .mig-stats{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:40px}
@@ -1055,7 +1073,7 @@ footer.site{border-top:6px solid var(--rose)}
       <div class="st-panel" data-beat="zoom">
         <h2>Homes merged <span class="st-red st-line">into mansions.</span></h2>
         <p class="st-sub">In West Cambridge, two and three-family houses were converted to single-family homes.</p>
-        <div class="st-stat"><b id="convNum">0</b><span>homes lost to single-family conversions</span></div>
+        <div class="st-stat"><b id="convNum">0</b><span>homes lost to single-family conversions in one neighborhood</span></div>
         <p class="source">City of Cambridge building permits, West Cambridge, 1996 to 2024. <a href="numbers.html">[Citations]</a></p>
       </div>
       <div class="st-panel" data-beat="win">
@@ -1071,7 +1089,12 @@ footer.site{border-top:6px solid var(--rose)}
     </div>
 
     <figure class="st-vis">
-      <button type="button" class="st-replay" id="stReplay" aria-label="Play the story again" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Replay</button>
+      <div class="st-chips" id="stSteps" role="group" aria-label="Jump to a part of the story" hidden>
+        <button type="button" class="st-replay" data-p=".40" aria-pressed="false">1943&ndash;2024</button>
+        <button type="button" class="st-replay" data-p=".66" aria-pressed="false">Down conversions</button>
+        <button type="button" class="st-replay" data-p="1" aria-pressed="true">2025</button>
+        <button type="button" class="st-replay" id="stReplay" aria-label="Play the story again"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><span class="rl">Replay</span></button>
+      </div>
       <div class="st-year" id="stYear" aria-hidden="true">1930</div>
       <div class="st-canvas">
         <svg class="st-map" id="stMap" viewBox="0 0 612 444" role="img" aria-labelledby="stMap-t">
@@ -1196,12 +1219,12 @@ footer.site{border-top:6px solid var(--rose)}
       <ul class="rules">
         <li><h3>Wider setbacks</h3><p>Less of every lot can be built on</p></li>
         <li><h3>More wasted space</h3><p>More suburban-style lots</p></li>
+        <li><h3>More red tape</h3><p>Higher costs to build, higher rents</p></li>
       </ul>
       <p class="rules-then">Thousands of existing Cambridge homes would become illegal to build today.</p>
     </div>
     <div id="nowViz">
       <svg id="nowSvg" class="nowsvg" viewBox="638 215 540 495" role="img" aria-label="One building with 12 homes shrinks to 3 under the rollback, 9 homes lost. Then a block of new buildings shrinks the same way, one by one, with dashed red outlines showing the size each one could have been."></svg>
-      <p class="blockcap"><b>Then all the proposed housing projects shrink, one by one.</b></p>
       <p class="source">The red outlines illustrate how 8&ndash;12 home buildings would shrink under the proposed rules; not specific projects. Rules: City of Cambridge staff proposal, June 2026. <a href="numbers.html">Context</a>.</p>
     </div>
   </div>
@@ -1355,6 +1378,20 @@ function onEnter(el, fn, threshold){
     if (es[0].isIntersecting){ io.disconnect(); fn(false); }
   }, { threshold: threshold || 0.35 });
   io.observe(el);
+}
+// A timeline made of segments [from, to, ms, moving]. Moving segments play SPEED times faster;
+// pauses (moving = 0) keep their length. at(ms) gives the position at that time; dur is the total.
+function timeline(plan, speed){
+  var segs = plan.map(function(s){ return { a: s[0], b: s[1], ms: s[3] ? s[2] / speed : s[2] }; });
+  var dur = segs.reduce(function(n, s){ return n + s.ms; }, 0);
+  return { dur: dur, at: function(ms){
+    for (var i = 0; i < segs.length; i++){
+      var s = segs[i];
+      if (ms < s.ms) return s.a + (s.b - s.a) * (ms / s.ms);
+      ms -= s.ms;
+    }
+    return plan[plan.length - 1][1];
+  } };
 }
 function tween(ms, fn, done){
   var t0 = null;
@@ -1568,25 +1605,52 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   // The story plays on its own once half of it is on screen: about 14 seconds from 1930 to the 2025 win.
-  var BASE = 14000, EXTRA = 3000, HOLD = 1000, DUR = BASE + EXTRA + HOLD, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
-  // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE,
-  // plus a HOLD ms pause at .66, right as the counter reaches -46 and before the houses fade and the map zooms out
-  function warp(u){
-    var ms = u * DUR, a = .44 * BASE, beat = .26 * BASE + EXTRA, h = a + beat * (.22 / .26), b = a + beat + HOLD;
-    if (ms < a) return ms / BASE;
-    if (ms < h) return .44 + (ms - a) / beat * .26;
-    if (ms < h + HOLD) return .66;
-    if (ms < b) return .66 + (ms - h - HOLD) / beat * .26;
-    return Math.min(1, .70 + (ms - b) / BASE);
-  }
+  // SPEED speeds up the moving parts only; the pauses between them keep their length.
+  // BASE ms per unit of progress, slower (BEAT) through the mansions beat; HOLD ms pause on -46.
+  var SPEED = 1.5, BASE = 14000, BEAT = (.26 * BASE + 3000) / .26, HOLD = 1000;
+  var TL = timeline([
+    [0, .05, .05 * BASE, 0],          // 1930 map, before anything moves
+    [.05, .36, .31 * BASE, 1],        // bans spread to 2024
+    [.36, .42, .06 * BASE, 0],        // the 2024 map sits
+    [.42, .44, .02 * BASE, 1],        // West Cambridge outlined
+    [.44, .66, .22 * BEAT, 1],        // zoom in, houses, counter to -46
+    [.66, .66, HOLD, 0],              // hold on -46
+    [.66, .70, .04 * BEAT, 1],        // houses fade
+    [.70, .74, .04 * BASE, 1],        // zoom back out
+    [.74, .76, .02 * BASE, 0],        // beat before 2025
+    [.76, .90, .14 * BASE, 1],        // apartments legal again, spreading from East Cambridge
+    [.90, 1, .10 * BASE, 0]           // the 2025 map sits
+  ], SPEED);
+  var DUR = TL.dur, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
+  function warp(u){ return TL.at(u * DUR); }
   function frame(now){
     if (t0 === null) t0 = now;
     prog = warp(clamp((now - t0) / DUR)); render(); bar.style.transform = 'scaleX(' + prog.toFixed(3) + ')';
-    if (prog < 1) raf = requestAnimationFrame(frame); else { foot.classList.add('done'); replay.hidden = false; }
+    if (prog < 1) raf = requestAnimationFrame(frame); else finish();
   }
-  function play(){ cancelAnimationFrame(raf); t0 = null; prog = 0; last = -1; bar.style.transform = 'scaleX(0)'; foot.classList.remove('done'); replay.hidden = true; render(); raf = requestAnimationFrame(frame); }
+  function play(){ cancelAnimationFrame(raf); t0 = null; prog = 0; last = -1; bar.style.transform = 'scaleX(0)'; foot.classList.remove('done'); steps.hidden = true; render(); raf = requestAnimationFrame(frame); }
+  // chapters: once the story ends, jump between its three finished states (or replay it)
+  var steps = $('stSteps'), stepBtns = [].slice.call(steps.querySelectorAll('[data-p]'));
+  function mark(p){ stepBtns.forEach(function(b){ b.setAttribute('aria-pressed', String(+b.getAttribute('data-p') === p)); }); }
+  function finish(){ foot.classList.add('done'); steps.hidden = false; mark(1); }
+  function goTo(p){
+    cancelAnimationFrame(raf); mark(p);
+    // on phones the chapter buttons sit below the text they change; bring the story's top into view
+    var top = sec.querySelector('.st-text').getBoundingClientRect().top;
+    if (top < 0) window.scrollBy({ top: top - 80, behavior: reduce ? 'auto' : 'smooth' });
+    if (reduce){ prog = p; render(); return; }
+    var from = prog, t1 = null, MS = 800;
+    function step(now){
+      if (t1 === null) t1 = now;
+      var u = clamp((now - t1) / MS), e = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      prog = from + (p - from) * e; render();
+      if (u < 1) raf = requestAnimationFrame(step);
+    }
+    raf = requestAnimationFrame(step);
+  }
+  stepBtns.forEach(function(b){ b.addEventListener('click', function(){ goTo(+b.getAttribute('data-p')); }); });
   replay.addEventListener('click', play);
-  if (reduce){ prog = 1; render(); bar.style.transform = 'scaleX(1)'; foot.classList.add('done'); }
+  if (reduce){ prog = 1; render(); bar.style.transform = 'scaleX(1)'; finish(); }
   else {
     render();
     var stage = $('stStage');
@@ -1677,8 +1741,16 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     if (now){ rules.forEach(function(li){ li.classList.add('on'); }); return frame(T1); }
     rules.forEach(function(li,i){ setTimeout(function(){ li.classList.add('on'); }, i*450); });
     // hold for LOST_HOLD seconds once "9 homes lost" is fully shown (t=5.1), before the block comes in
-    var LOST_AT=5.1, LOST_HOLD=1, span=T1-T0+LOST_HOLD;
-    setTimeout(function(){ tween(span*1000, function(p){ var e=T0+p*span; frame(e<LOST_AT?e:e<LOST_AT+LOST_HOLD?LOST_AT:e-LOST_HOLD); }); }, 800);
+    // moving parts play SPEED times faster; the pauses (building held, "9 homes lost", finished block) keep their length
+    var SPEED=1.5, TL=timeline([
+      [T0,2.8,1000,0],      // building held
+      [2.8,5.1,2300,1],     // 12 homes shrink to 3, "9 homes lost" fades in
+      [5.1,5.1,1000,0],     // hold on "9 homes lost"
+      [5.1,5.6,500,0],
+      [5.6,8.4,2800,1],     // crossfade to the block, each building shrinks
+      [8.4,T1,600,0]        // finished block
+    ], SPEED);
+    setTimeout(function(){ tween(TL.dur, function(p){ frame(TL.at(p*TL.dur)); }); }, 800);
   }, 0.3);
 })();
 
