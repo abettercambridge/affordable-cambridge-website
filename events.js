@@ -58,6 +58,6 @@ window.AC_EVENTS = [
       (ev.details ? '<p>' + esc(ev.details) + '</p>' : '') +
       (ev.link ? '<p><a href="' + esc(ev.link) + '" target="_blank" rel="noopener">Details and agenda</a></p>' : '') +
       cal + '</div></article>';
-  }).join('') : '<p class="note">No events scheduled right now. Pledge and we\u2019ll tell you when one is.</p>';
+  }).join('') : '<p class="note">No events scheduled right now. Sign up for updates and we\u2019ll tell you when one is.</p>';
   [].forEach.call(els, function(el){ el.innerHTML = html; });
 })();
