@@ -518,16 +518,6 @@ section.frame.hook{background:var(--teal);color:var(--on-teal)}
 
 /* 7. the ask */
 .ask .sub{color:var(--muted)}
-/* 6b. poll teaser; full results on poll.html */
-.poll-s{background:var(--teal);color:var(--on-teal)}
-.poll-s .kicker{color:var(--sea)}
-.poll-s .sub{color:var(--on-teal)}
-.poll-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;list-style:none;margin:40px 0 36px}
-.poll-nums b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(3.5rem,8vw,5.5rem);line-height:.9;color:var(--yellow)}
-.poll-nums span{display:block;margin-top:10px;font-size:1.05rem;line-height:1.4;max-width:280px}
-@media (max-width:700px){.poll-nums{grid-template-columns:1fr;gap:22px}}
-.poll-s .btn-ask:focus-visible{outline-color:var(--yellow)}
-
 .steps{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);margin-top:48px;position:relative;counter-reset:s}
 .steps::before{content:"";position:absolute;top:41px;left:10%;right:10%;height:2px;background:var(--line)}
 .steps li{position:relative;text-align:center;padding:0 6px}
@@ -1022,7 +1012,7 @@ footer.site{border-top:6px solid var(--rose)}
     </div>
     <nav class="main" id="mainNav" aria-label="Main">
       <ul>
-        <li><a href="index.html" aria-current="page">The Issue</a></li><li><a href="numbers.html">The numbers</a></li><li><a href="poll.html">The poll</a></li><li><a href="neighbors.html">Neighbors</a></li><li><a href="stories.html">Share your story</a></li><li><a href="act.html" class="nav-ask">Take action</a></li>
+        <li><a href="index.html" aria-current="page">The Issue</a></li><li><a href="numbers.html">The numbers</a></li><li><a href="neighbors.html">Neighbors</a></li><li><a href="stories.html">Share your story</a></li><li><a href="act.html" class="nav-ask">Take action</a></li>
       </ul>
     </nav>
   </div>
@@ -1261,21 +1251,6 @@ footer.site{border-top:6px solid var(--rose)}
       <svg id="costSvg" viewBox="0 0 640 300" role="img" aria-labelledby="costSvg-d"><desc id="costSvg-d">Line chart of the typical Cambridge home value from 2000 to 2026. It rises from about $314,000 to over $1 million, with a plateau after 2005 and steeper climbing since 2013.</desc></svg>
     </figure>
     <p class="source">Source: Zillow Home Value Index, Cambridge, single-family homes and condos, middle price tier, smoothed and seasonally adjusted; January of each year, not adjusted for inflation. Compiled in <a href="https://github.com/abettercambridge/public-posts/blob/main/cambridge-housing-affordability/notebooks/affordable_cambridge_website_citations.ipynb" target="_blank" rel="noopener">A Better Cambridge's housing data</a>. <a href="numbers.html">Sources</a></p>
-  </div>
-</section>
-
-<!-- 6b. THE POLL. Figures from the Embold Research memo; full results and charts on poll.html. -->
-<section class="s poll-s" id="poll" aria-labelledby="poll-h">
-  <div class="wrap">
-    <p class="kicker">New poll, October 2026</p>
-    <h2 id="poll-h">Cambridge wants more homes.</h2>
-    <p class="sub">A new survey of 442 Cambridge voters finds broad support for the ordinance.</p>
-    <ul class="poll-nums">
-      <li><b>64%</b><span>support the Multifamily Housing Ordinance</span></li>
-      <li><b>84%</b><span>say housing affordability should be a top priority for the City Council</span></li>
-      <li><b>86%</b><span>of voters aged 18 to 34 support the ordinance</span></li>
-    </ul>
-    <a class="btn btn-ask" href="poll.html">See the poll results</a>
   </div>
 </section>
 
