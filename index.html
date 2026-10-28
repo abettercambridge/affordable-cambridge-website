@@ -273,6 +273,8 @@ nav.main a.nav-ask:hover{background:var(--yellow-hover)}
 .btn-head{border-radius:9999px;padding:8px 14px;letter-spacing:.04em;color:var(--ink)}
 .menu-btn{border-radius:9999px;padding:6px 14px;font-family:var(--sans)}
 @media (max-width:780px){nav.main a{border-bottom:2px solid var(--line)}nav.main a.nav-ask{border:0}}
+/* small phones: the Porch Teal padding above overrides the 400px rules, so shrink the header buttons again here */
+@media (max-width:400px){.btn-head{padding:6px 8px}.menu-btn{padding:4px 8px}.head-right{gap:8px}}
 
 /* buttons: yellow pill = the one action, teal pill = everything else */
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:0;border-radius:9999px;background:var(--teal);color:var(--on-teal);font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:.04em;line-height:1.1;text-align:center}
@@ -951,6 +953,11 @@ footer.site{border-top:6px solid var(--rose)}
 /* ===== v39: the past plays on its own; one stat row for pushed out; hero is shorter ===== */
 .js .story{height:auto}
 .js .st-stage{position:static;height:calc(100svh - var(--head-h) - 72px);min-height:600px;max-height:840px}
+/* phones: let the story grow past one screen so the map keeps its full size (the cards can sit below the fold) */
+@media (max-width:760px){
+  .js .st-stage{height:auto;min-height:0;max-height:none}
+  .st-canvas{flex:none;aspect-ratio:612/444}
+}
 .st-foot{position:relative;max-width:1120px;margin:0 auto;padding:0 22px 22px}
 .st-prog{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
 .st-prog i{display:block;height:100%;background:var(--teal);transform-origin:0 50%;transform:scaleX(0)}
@@ -1056,7 +1063,7 @@ footer.site{border-top:6px solid var(--rose)}
       <div class="st-panel" data-beat="zoom">
         <h2>Homes merged <span class="st-red st-line">into mansions.</span></h2>
         <p class="st-sub">In West Cambridge, two and three-family houses were converted to single-family homes.</p>
-        <div class="st-stat"><b id="convNum">0</b><span>homes lost to single-family conversions</span></div>
+        <div class="st-stat"><b id="convNum">0</b><span>homes lost to single-family conversions in one neighborhood</span></div>
         <p class="source">City of Cambridge building permits, West Cambridge, 1996 to 2024. <a href="numbers.html">How we counted</a></p>
       </div>
       <div class="st-panel" data-beat="win">
@@ -1347,6 +1354,20 @@ function onEnter(el, fn, threshold){
   }, { threshold: threshold || 0.35 });
   io.observe(el);
 }
+// A timeline made of segments [from, to, ms, moving]. Moving segments play SPEED times faster;
+// pauses (moving = 0) keep their length. at(ms) gives the position at that time; dur is the total.
+function timeline(plan, speed){
+  var segs = plan.map(function(s){ return { a: s[0], b: s[1], ms: s[3] ? s[2] / speed : s[2] }; });
+  var dur = segs.reduce(function(n, s){ return n + s.ms; }, 0);
+  return { dur: dur, at: function(ms){
+    for (var i = 0; i < segs.length; i++){
+      var s = segs[i];
+      if (ms < s.ms) return s.a + (s.b - s.a) * (ms / s.ms);
+      ms -= s.ms;
+    }
+    return plan[plan.length - 1][1];
+  } };
+}
 function tween(ms, fn, done){
   var t0 = null;
   function step(ts){
@@ -1559,17 +1580,24 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     });
   }
   // The story plays on its own once half of it is on screen: about 14 seconds from 1930 to the 2025 win.
-  var BASE = 14000, EXTRA = 3000, HOLD = 1000, DUR = BASE + EXTRA + HOLD, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
-  // the mansions beat (progress .44 to .70) gets EXTRA ms on top of its share of BASE,
-  // plus a HOLD ms pause at .66, right as the counter reaches -46 and before the houses fade and the map zooms out
-  function warp(u){
-    var ms = u * DUR, a = .44 * BASE, beat = .26 * BASE + EXTRA, h = a + beat * (.22 / .26), b = a + beat + HOLD;
-    if (ms < a) return ms / BASE;
-    if (ms < h) return .44 + (ms - a) / beat * .26;
-    if (ms < h + HOLD) return .66;
-    if (ms < b) return .66 + (ms - h - HOLD) / beat * .26;
-    return Math.min(1, .70 + (ms - b) / BASE);
-  }
+  // SPEED speeds up the moving parts only; the pauses between them keep their length.
+  // BASE ms per unit of progress, slower (BEAT) through the mansions beat; HOLD ms pause on -46.
+  var SPEED = 1.5, BASE = 14000, BEAT = (.26 * BASE + 3000) / .26, HOLD = 1000;
+  var TL = timeline([
+    [0, .05, .05 * BASE, 0],          // 1930 map, before anything moves
+    [.05, .36, .31 * BASE, 1],        // bans spread to 2024
+    [.36, .42, .06 * BASE, 0],        // the 2024 map sits
+    [.42, .44, .02 * BASE, 1],        // West Cambridge outlined
+    [.44, .66, .22 * BEAT, 1],        // zoom in, houses, counter to -46
+    [.66, .66, HOLD, 0],              // hold on -46
+    [.66, .70, .04 * BEAT, 1],        // houses fade
+    [.70, .74, .04 * BASE, 1],        // zoom back out
+    [.74, .76, .02 * BASE, 0],        // beat before 2025
+    [.76, .90, .14 * BASE, 1],        // apartments legal again, spreading from East Cambridge
+    [.90, 1, .10 * BASE, 0]           // the 2025 map sits
+  ], SPEED);
+  var DUR = TL.dur, t0 = null, raf = 0, foot = $('stFoot'), bar = $('stBar'), replay = $('stReplay'), started = false;
+  function warp(u){ return TL.at(u * DUR); }
   function frame(now){
     if (t0 === null) t0 = now;
     prog = warp(clamp((now - t0) / DUR)); render(); bar.style.transform = 'scaleX(' + prog.toFixed(3) + ')';
@@ -1688,8 +1716,16 @@ var lerp = function(a, b, t){ return a + (b - a) * t; };
     if (now){ rules.forEach(function(li){ li.classList.add('on'); }); return frame(T1); }
     rules.forEach(function(li,i){ setTimeout(function(){ li.classList.add('on'); }, i*450); });
     // hold for LOST_HOLD seconds once "9 homes lost" is fully shown (t=5.1), before the block comes in
-    var LOST_AT=5.1, LOST_HOLD=1, span=T1-T0+LOST_HOLD;
-    setTimeout(function(){ tween(span*1000, function(p){ var e=T0+p*span; frame(e<LOST_AT?e:e<LOST_AT+LOST_HOLD?LOST_AT:e-LOST_HOLD); }); }, 800);
+    // moving parts play SPEED times faster; the pauses (building held, "9 homes lost", finished block) keep their length
+    var SPEED=1.5, TL=timeline([
+      [T0,2.8,1000,0],      // building held
+      [2.8,5.1,2300,1],     // 12 homes shrink to 3, "9 homes lost" fades in
+      [5.1,5.1,1000,0],     // hold on "9 homes lost"
+      [5.1,5.6,500,0],
+      [5.6,8.4,2800,1],     // crossfade to the block, each building shrinks
+      [8.4,T1,600,0]        // finished block
+    ], SPEED);
+    setTimeout(function(){ tween(TL.dur, function(p){ frame(TL.at(p*TL.dur)); }); }, 800);
   }, 0.3);
 })();
 
