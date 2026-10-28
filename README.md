@@ -29,7 +29,6 @@ The site is hosted on Netlify. Push to the linked repo, or drag the folder onto 
 | `privacy.html` | How form information is used |
 | `events.js` | Upcoming events, shared by `index.html`, `act.html` and `pledged.html` |
 | `storycards.js` | Story card layouts, shared by `index.html` and `stories.html` |
-| `sheet-sync.js` | Copies each pledge and story submission to a Google Sheet, alongside Netlify Forms |
 | `files/` | Downloadable PDFs |
 | `share.png` | Link preview image (1200×630) |
 
@@ -54,10 +53,5 @@ The homepage map story and the "12 homes to 3" drawing are each a list of motion
 
 ## Open items
 
-- **"Thousands of existing Cambridge homes would become illegal to build today"** (rollback section, `index.html`): add the source as a row on `numbers.html`.
-- **Drone video:** `images/cambridge-aerial.mp4` is YouTube drone footage. Confirm we have the rights to use it.
-- **Building photos:** `images/garden-st.jpg`, `harvard-st.jpg`, `linnaean-st.jpg` and `oxford-st.jpg` are low-res (504 px wide). Swap in originals, confirm each building is nonconforming, and move the map pins to the exact addresses.
-- **Unused sketches:** `images/modern-gable.svg` and `images/nine-unit.svg` aren't used on any page. Use them in the "one lot" section (`#win`) or delete them.
 - **Placeholder PDF:** `files/EmboldPollingMethodologyOct26.pdf` on `main` is a one-page "test" file. Nothing links to it yet; the real file ships with the poll page.
-- **Timeline:** update `index.html` (the ask), `act.html` and `events.js` when the city sets hearing and vote dates.
 - **Link previews:** once the domain points at Netlify, check `share.png` and `og:url` with a preview checker such as opengraph.xyz.
